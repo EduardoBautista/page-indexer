@@ -1,24 +1,45 @@
-# README
+# Page Indexer
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Rails 5 app that indexes h1, h2, h3, and link content of a url.  It is
+an api only app, so it only accepts and serves [JSON API](http://jsonapi.org)
+compliant requests and responses.
 
-Things you may want to cover:
+## Request Headers
 
-* Ruby version
+In order to be compliant with the JSON API spec, the following header must be
+set in every request:
 
-* System dependencies
+`Content-Type: application/vnd.api+json`
 
-* Configuration
+## Indexing a URL
 
-* Database creation
+`POST /pages`
 
-* Database initialization
+```
+{
+  "data": {
+    "type": "pages",
+    "attributes": {
+      "url": "https://eduardobautista.com/automatically-correct-typos-in-git/"
+    }
+  }
+}
+```
 
-* How to run the test suite
+## List indexed URLs
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+{
+  "data" : [{
+    "id" : wildcard_matcher,
+    "type" : "pages",
+    "attributes" : {
+      "url" : "https://eduardobautista.com/switching-from-qwerty-to-colemak/",
+      "h1-content" : ["Switching from Qwerty to Colemak"],
+      "h2-content" : [],
+      "h3-content" : [],
+      "links" : ["/", "http://www.dvzine.org/zine/index.html', "https://colemak.com/FAQ"]
+    }
+  }]
+}
+```
