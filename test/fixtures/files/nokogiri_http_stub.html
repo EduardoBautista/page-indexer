@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Automatically correct typos in Git</title>
+  <meta name="description" content="TL;DRgit config --global help.autoCorrect -1">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="https://eduardobautista.com/automatically-correct-typos-in-git/">
+  <link rel="alternate" type="application/rss+xml" title="Eduardo Bautista" href="https://eduardobautista.com/feed.xml">
+</head>
+
+  <body>
+    <header>
+  <a href="/">Eduardo Bautista</a>
+</header>
+
+    <div>
+      <article>
+  <h1>Automatically correct typos in Git</h1>
+  <p>Jan 24, 2016</p>
+
+  <div>
+    <h2 id="tldr">TL;DR</h2>
+<p><code class="highlighter-rouge">git config --global help.autoCorrect -1</code></p>
+
+<h2 id="the-details">The Details</h2>
+<p>Ah yes.  Once again you have typed <code class="highlighter-rouge">git stauts</code> and have received the infamous response:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git: 'stauts' is not a git command. See 'git --help'.
+
+Did you mean this?
+	status
+</code></pre>
+</div>
+
+<p>Never fear, you can configure git to automatically correct your typos using the <code class="highlighter-rouge">help.autoCorrect</code> configuration option.  Here is the description in the documentation:</p>
+
+<blockquote>
+  <p>Automatically correct and execute mistyped commands after waiting for the given number of deciseconds (0.1 sec). If more than one command can be deduced from the entered text, nothing will be executed. If the value of this option is negative, the corrected command will be executed immediately. If the value is 0 - the command will be just shown but not executed. This is the default.</p>
+</blockquote>
+
+<p>So basically, you use it like this:</p>
+
+<p><code class="highlighter-rouge">git config [--global | --local | --system ] help.autoCorrect [number of deciseconds (0.1 sec) to wait before executing or a negative number for to execute immediately]</code></p>
+
+<p>Here is how I use it:</p>
+
+<p><code class="highlighter-rouge">git config --global help.autoCorrect -1</code></p>
+
+<p>Now you will get this message:</p>
+
+<blockquote>
+  <p>WARNING: You called a Git command named ‘stauts’, which does not exist.
+Continuing under the assumption that you meant ‘status’</p>
+</blockquote>
+
+<p><strong>Edit</strong>: I updated the “TL;DR” command to run immediately instead of waiting 0.1 seconds.</p>
+
+  </div>
+</article>
+
+    </div>
+  </body>
+</html>
