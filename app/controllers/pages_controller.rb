@@ -1,6 +1,12 @@
 require 'open-uri'
 
 class PagesController < ApplicationController
+  def index
+    @pages = Page.all
+
+    render json: @pages
+  end
+
   def create
     html = Nokogiri::HTML(open(page_params[:url]))
     h1_content = get_content_in_css(html, 'h1')

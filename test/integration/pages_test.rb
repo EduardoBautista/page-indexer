@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PageIndexingTest < ActionDispatch::IntegrationTest
+class PagesTest < ActionDispatch::IntegrationTest
   def setup
     url = 'https://eduardobautista.com/automatically-correct-typos-in-git/'
     file = File.new(Rails.root.join('test', 'fixtures', 'files', 'nokogiri_http_stub.html'))
@@ -9,14 +9,7 @@ class PageIndexingTest < ActionDispatch::IntegrationTest
 
   test 'POST /pages' do
     assert_difference 'Page.count', 1 do
-      post '/pages', params: {
-        data: {
-          type: 'pages',
-          attributes: {
-            url: 'https://eduardobautista.com/automatically-correct-typos-in-git/'
-          }
-        }
-      }, headers: json_api_headers, as: :json
+      post_request
     end
 
     assert_response :created
@@ -38,7 +31,39 @@ class PageIndexingTest < ActionDispatch::IntegrationTest
     assert_json_match expected_response, response.body
   end
 
+  test 'GET /pages' do
+    get '/pages', headers: json_api_headers
+    assert_response :ok
+
+    expected_response = {
+      'data' => [{
+        'id' => wildcard_matcher,
+        'type' => 'pages',
+        'attributes' => {
+          'url' => 'https://eduardobautista.com/switching-from-qwerty-to-colemak/',
+          'h1-content' => ['Switching from Qwerty to Colemak'],
+          'h2-content' => [],
+          'h3-content' => [],
+          'links' => ['/', 'http://www.dvzine.org/zine/index.html', 'https://colemak.com/FAQ']
+        }
+      }]
+    }
+
+    assert_json_match expected_response, response.body
+  end
+
   private
+
+  def post_request
+      post '/pages', params: {
+        data: {
+          type: 'pages',
+          attributes: {
+            url: 'https://eduardobautista.com/automatically-correct-typos-in-git/'
+          }
+        }
+      }, headers: json_api_headers, as: :json
+  end
 
   def json_api_headers
     {
